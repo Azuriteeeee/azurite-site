@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+  <meta property='og:type' content='website'>
+  <meta property='og:title' content='プレイゲーム - あずらいと / Azurite'>
+  <meta property='og:description' content='あずらいとが配信・動画投稿でプレイしているゲームの一覧'>
+  <title>やってるゲーム・楽しかったゲーム紹介 - あずらいと / Azurite</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Material+Icons+Outlined" rel="stylesheet">
+  <link href="css/ress.css" media="all" rel="stylesheet" type="text/css" />
+  <link href="css/style.css" media="all" rel="stylesheet" type="text/css" />
+  <link rel="shortcut icon" href="img/favicon.ico" />
+
+  <style>
+    .game-group {
+      margin-bottom: 60px;
+    }
+    .game-cat-heading {
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      border-bottom: 2px solid #111;
+      padding-bottom: 6px;
+      margin-bottom: 30px;
+    }
+    .game-unit {
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 30px;
+      margin-bottom: 30px;
+    }
+    .game-unit:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+    .game-title-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .game-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #111;
+      margin: 0;
+    }
+    .game-genre {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #666;
+    }
+
+    /* ゲーム画像枠（1枚または2枚横並びに対応） */
+    .game-photo {
+      display: flex;
+      gap: 12px;
+      margin: 12px 0 16px 0;
+      max-width: 280px;       /* デバイス1枚のときと同じスマートな幅に固定 */
+    }
+    .game-photo img {
+      width: 100%;
+      height: auto;
+      max-height: 280px;      /* 縦長になりすぎないよう制限 */
+      display: block;
+      border: 1px solid #eee;
+      object-fit: cover;
+    }
+    /* もし2枚並べる場合の設定 */
+    .game-photo.is-dual {
+      max-width: 580px;
+    }
+    .game-photo.is-dual img {
+      width: calc(50% - 6px);
+    }
+    /* コメント・プレイスタイル表 */
+    .game-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    .game-table th,
+    .game-table td {
+      padding: 8px 0;
+      text-align: left;
+      vertical-align: top;
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+/* テーブル全体のレイアウトを固定し、折り返しを強制阻止 */
+    .game-table th {
+      width: 140px !important;
+      min-width: 140px !important;
+      white-space: nowrap !important;
+      word-break: keep-all !important;
+      font-weight: 700;
+      color: #555;
+      padding-right: 15px !important;
+    }    .game-table td {
+      color: #222;
+    }
+
+    /* 戻るリンク */
+    .home-link {
+      text-align: center;
+      margin-top: 40px;
+    }
+    .home-link a {
+      font-size: 0.9rem;
+      color: #555;
+      text-decoration: underline;
+    }
+    .home-link a:hover {
+      color: #111;
+    }
+
+    /* スマホ表示時：テーブルの縦並び化 */
+    @media screen and (max-width: 767px) {
+      .game-table,
+      .game-table tbody,
+      .game-table tr,
+      .game-table th,
+      .game-table td {
+        display: block !important;
+        width: 100% !important;
+      }
+      .game-table th {
+        padding-bottom: 4px !important;
+        font-size: 0.95rem;
+      }
+      .game-table td {
+        padding-top: 0 !important;
+      }
+      .game-photo.is-dual {
+        flex-direction: column;
+      }
+      .game-photo.is-dual img {
+        width: 100%;
+      }
+    }
+
+    /* 目次デザイン */
+    .toc-box {
+      max-width: 460px;
+      margin: 25px auto 45px;
+      background: #fafafa;
+      border: 1px solid #eee;
+      padding: 16px 24px;
+    }
+    .toc-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: #333;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 6px;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+    .toc-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .toc-list li a {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #444;
+      text-decoration: none;
+      display: block;
+      transition: color 0.2s, transform 0.2s;
+    }
+    .toc-list li a:hover {
+      color: #111;
+      transform: translateX(4px);
+    }
+
+    /* 固定ヘッダー分のスクロール余白を確保 */
+    .game-group {
+      scroll-margin-top: 90px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+
+    <!-- header -->
+    <header class="header">
+      <div class="container">
+        <h1 class="header-logo">
+          <a href="index.html">あずらいと / Azurite</a>
+        </h1>
+        <nav class="gnav">
+          <ul class="gnav-list">
+            <li class="gnav-item"><a href="index.html">HOME</a></li>
+            <li class="gnav-item"><a href="index.html#contents">CONTENTS</a></li>
+            <li class="gnav-item"><a href="index.html#about">ABOUT</a></li>
+            <li class="gnav-item"><a href="index.html#contact">CONTACT</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <!-- /header -->
+
+    <main class="content">
+      <article class="article">
+        <div class="article-container">
+          <h2 class="title">やってるゲーム・楽しかったゲーム紹介</h2>
+
+           <div class="article-body">
+            <p style="text-align: center;">現在自分がプレイしているゲームタイトルや、楽しかったゲームの紹介です。<br>
+            </p>
+
+            <!-- 目次 (TABLE OF CONTENTS) -->
+            <div class="toc-box">
+              <div class="toc-title">目次</div>
+              <ul class="toc-list">
+                <li><a href="#active-games">1. やってるゲーム</a></li>
+                <li><a href="#favorite-games">2. 楽しかったゲーム</a></li>
+              </ul>
+            </div>
+            
+            <!-- MAIN GAMES -->
+            <div class="game-group" id="active-games">
+              <div class="game-cat-heading">やってるゲーム</div>
+
+              <!-- FORTNITE -->
+              <div class="game-unit">
+                <div class="game-title-row">
+                  <div class="game-title">フォートナイト</div>
+                  <div class="game-genre">バトルロイヤル / TPS</div>
+                </div>
+                <div class="game-photo">
+                  <img src="img/fn.webp" alt="Fortnite" onerror="this.src='https://via.placeholder.com/600x340/222/fff?text=Fortnite'">
+                </div>
+                <table class="game-table">
+                  <tr>
+                    <th>プレイスタイル</th>
+                    <td>ランクマッチやリロード、クリエイティブ。</td>
+                  </tr>
+                  <tr>
+                    <th>コメント</th>
+                    <td>活動の原点となっているメインタイトルです。中学生の頃からプレイを続けており、最もプレイ時間が長く、非常に思い入れの深いゲームです。</td>
+                  </tr>
+                </table>
+              </div>
+
+              <!-- VALORANT -->
+              <div class="game-unit">
+                <div class="game-title-row">
+                  <div class="game-title">VALORANT</div>
+                  <div class="game-genre">5v5 / FPS</div>
+                </div>
+                <div class="game-photo">
+                  <img src="img/Valorant-Logo-PNG-Photo.png" alt="VALORANT" onerror="this.src='https://via.placeholder.com/600x340/222/fff?text=VALORANT'">
+                </div>
+                <table class="game-table">
+                  <tr>
+                    <th>プレイスタイル</th>
+                    <td>コンペティティブ、友達とのフルパ</td>
+                  </tr>
+                  <tr>
+                    <th>コメント</th>
+                    <td>2024年から本格的にプレイを開始。ランクは着々と上がっている(はず)。</td>
+                  </tr>
+                </table>
+              </div>
+
+              <!-- MINECRAFT -->
+              <div class="game-unit">
+                <div class="game-title-row">
+                  <div class="game-title">マインクラフト</div>
+                  <div class="game-genre">サンドボックス / サバイバル</div>
+                </div>
+                <div class="game-photo">
+                  <img src="img/minecraft.png" alt="Minecraft" onerror="this.src='https://via.placeholder.com/600x340/222/fff?text=Minecraft'">
+                </div>
+                <table class="game-table">
+                  <tr>
+                    <th>プレイスタイル</th>
+                    <td>バニラサバイバル、工業mod、Modパック</td>
+                  </tr>
+                  <tr>
+                    <th>コメント</th>
+                    <td>競技系シューターとは対照的に、まったりと遊べるオープンワールドゲーム。工業modが便利すぎて逆にバニラが不便に感じてしまう。</td>
+                  </tr>
+                </table>
+              </div>
+
+              <!-- ENDFIELD -->
+              <div class="game-unit">
+                <div class="game-title-row">
+                  <div class="game-title">アークナイツ：エンドフィールド</div>
+                  <div class="game-genre">オープンワールド / リアルタイム戦略RPG / 工業</div>
+                </div>
+                <div class="game-photo">
+                  <img src="img/minecraft.png" alt="Minecraft" onerror="this.src='https://via.placeholder.com/600x340/222/fff?text=Minecraft'">
+                </div>
+                <table class="game-table">
+                  <tr>
+                    <th>プレイスタイル</th>
+                    <td>ストーリー視聴、キャラ育成、工業ライン作成</td>
+                  </tr>
+                  <tr>
+                    <th>コメント</th>
+                    <td>唯一無二のグラフィックが素晴らしいタイトル。魅力的なキャラクターの追加ペースにガチャ石の供給が追いつきません。集成工業システムでガチャ石を作れるようになりますように。</td>
+                  </tr>
+                </table>
+              </div>
+
+              <!-- cyberpunk -->
+              <div class="game-unit">
+                <div class="game-title-row">
+                  <div class="game-title">サイバーパンク2077</div>
+                  <div class="game-genre">オープンワールド / アクションRPG</div>
+                </div>
+                <div class="game-photo">
+                  <img src="img/minecraft.png" alt="Minecraft" onerror="this.src='https://via.placeholder.com/600x340/222/fff?text=Minecraft'">
+                </div>
+                <table class="game-table">
+                  <tr>
+                    <th>プレイスタイル</th>
+                    <td>ストーリー視聴、クエスト消化</td>
+                  </tr>
+                  <tr>
+                    <th>コメント</th>
+                    <td>アニメが面白かったのでSteamのセール中に購入。自由度がとても高く、車やバイクでナイトシティーを駆け回るのが楽しい。</td>
+                  </tr>
+                </table>
+              </div>
+
+
+            </div>
+
+
+
+            <!-- SUB GAMES -->
+            <div class="game-group" id="favorite-games">
+              <div class="game-cat-heading">楽しかったゲーム</div>
+
+              <!-- FORTNITE -->
+              <div class="game-unit">
+                <div class="game-title-row">
+                  <div class="game-title">Satisfactory</div>
+                  <div class="game-genre">工業シミュレーション</div>
+                </div>
+                <div class="game-photo">
+                  <img src="img/fn.webp" alt="Fortnite" onerror="this.src='https://via.placeholder.com/600x340/222/fff?text=Fortnite'">
+                </div>
+                <table class="game-table">
+                  <tr>
+                    <th>プレイスタイル</th>
+                    <td>工業ラインの作成、敵対生物の駆除</td>
+                  </tr>
+                  <tr>
+                    <th>コメント</th>
+                    <td>がっつり工業をしたい人におすすめの工業ゲー。コンテンツが豊富と絶妙なゲームバランスにより、プレイの手を止めることはできません。</td>
+                  </tr>
+                </table>
+              </div>
+
+              <!-- VALORANT -->
+              <div class="game-unit">
+                <div class="game-title-row">
+                  <div class="game-title">Fast Food Simulator</div>
+                  <div class="game-genre">お店経営 / シミュレーション</div>
+                </div>
+                <div class="game-photo">
+                  <img src="img/Valorant-Logo-PNG-Photo.png" alt="VALORANT" onerror="this.src='https://via.placeholder.com/600x340/222/fff?text=VALORANT'">
+                </div>
+                <table class="game-table">
+                  <tr>
+                    <th>プレイスタイル</th>
+                    <td>ファストフード店の運営</td>
+                  </tr>
+                  <tr>
+                    <th>コメント</th>
+                    <td>ファストフード店の店長となり、お客さんが注文したバーガーやサイドメニューを作り提供します。難易度を選ぶことができ、最高難易度は本当に忙しいです。マルチプレイに対応しています。</td>
+                  </tr>
+                </table>
+              </div>
+
+              <!-- MINECRAFT -->
+              <div class="game-unit">
+                <div class="game-title-row">
+                  <div class="game-title">GOD FIELD</div>
+                  <div class="game-genre">カードバトルゲーム</div>
+                </div>
+                <div class="game-photo">
+                  <img src="img/minecraft.png" alt="Minecraft" onerror="this.src='https://via.placeholder.com/600x340/222/fff?text=Minecraft'">
+                </div>
+                <table class="game-table">
+                  <tr>
+                    <th>プレイスタイル</th>
+                    <td>マルチプレイ</td>
+                  </tr>
+                  <tr>
+                    <th>コメント</th>
+                    <td>ルールが分かりやすいカードバトルゲーム。天国病になっている時のハラハラ感はたまらない。大人数でやると暇な時間が多くなってしまう。</td>
+                  </tr>
+                </table>
+              </div>
+
+              <!-- MINECRAFT -->
+              <div class="game-unit">
+                <div class="game-title-row">
+                  <div class="game-title">プロジェクトセカイ カラフルステージ! feat. 初音ミク</div>
+                  <div class="game-genre">リズムゲーム</div>
+                </div>
+                <div class="game-photo">
+                  <img src="img/minecraft.png" alt="Minecraft" onerror="this.src='https://via.placeholder.com/600x340/222/fff?text=Minecraft'">
+                </div>
+                <table class="game-table">
+                  <tr>
+                    <th>プレイスタイル</th>
+                    <td>楽曲のプレイ、キャラクター育成、ストーリー視聴</td>
+                  </tr>
+                  <tr>
+                    <th>コメント</th>
+                    <td>上から降ってくるノーツを曲のリズムに合わせてタップするゲーム。ボーカロイドが好きな人は是非やってほしいゲーム。120Hzでやりたい。</td>
+                  </tr>
+                </table>
+              </div>
+
+              <!-- MINECRAFT -->
+              <div class="game-unit">
+                <div class="game-title-row">
+                  <div class="game-title">Supermarket Together</div>
+                  <div class="game-genre">お店経営 / シミュレーション</div>
+                </div>
+                <div class="game-photo">
+                  <img src="img/minecraft.png" alt="Minecraft" onerror="this.src='https://via.placeholder.com/600x340/222/fff?text=Minecraft'">
+                </div>
+                <table class="game-table">
+                  <tr>
+                    <th>プレイスタイル</th>
+                    <td>街のスーパーの店長となり、在庫補充や陳列、値段設定を行う。店内装飾のバリエーションが豊富。マルチプレイが可能。</td>
+                  </tr>
+                  <tr>
+                    <th>コメント</th>
+                    <td></td>
+                  </tr>
+                </table>
+              </div>
+
+              <!-- MINECRAFT -->
+              <div class="game-unit">
+                <div class="game-title-row">
+                  <div class="game-title">APEX LEGENDS</div>
+                  <div class="game-genre">バトルロイヤル / FPS</div>
+                </div>
+                <div class="game-photo">
+                  <img src="img/minecraft.png" alt="Minecraft" onerror="this.src='https://via.placeholder.com/600x340/222/fff?text=Minecraft'">
+                </div>
+                <table class="game-table">
+                  <tr>
+                    <th>プレイスタイル</th>
+                    <td>カジュアル、ランク</td>
+                  </tr>
+                  <tr>
+                    <th>コメント</th>
+                    <td>対面のスピード感が超速い。2026年にたまたまダイヤに到達。</td>
+                  </tr>
+                </table>
+              </div>
+
+              <!-- MINECRAFT -->
+              <div class="game-unit">
+                <div class="game-title-row">
+                  <div class="game-title">AMONG US</div>
+                  <div class="game-genre">オンラインSF殺人ミステリー</div>
+                </div>
+                <div class="game-photo">
+                  <img src="img/minecraft.png" alt="Minecraft" onerror="this.src='https://via.placeholder.com/600x340/222/fff?text=Minecraft'">
+                </div>
+                <table class="game-table">
+                  <tr>
+                    <th>プレイスタイル</th>
+                    <td>知り合いだけでマルチ</td>
+                  </tr>
+                  <tr>
+                    <th>コメント</th>
+                    <td>人をだますのは難しい。</td>
+                  </tr>
+                </table>
+              </div>
+
+              <!-- MINECRAFT -->
+              <div class="game-unit">
+                <div class="game-title-row">
+                  <div class="game-title">Slay the Spire 2</div>
+                  <div class="game-genre">カードバトルゲーム</div>
+                </div>
+                <div class="game-photo">
+                  <img src="img/minecraft.png" alt="Minecraft" onerror="this.src='https://via.placeholder.com/600x340/222/fff?text=Minecraft'">
+                </div>
+                <table class="game-table">
+                  <tr>
+                    <th>プレイスタイル</th>
+                    <td>マルチプレイ</td>
+                  </tr>
+                  <tr>
+                    <th>コメント</th>
+                    <td>やりたいことができるデッキになった時は本当に楽しい。？から敵が出てくる可能性は絶対に10%ではない。</td>
+                  </tr>
+                </table>
+              </div>
+
+              <!-- MINECRAFT -->
+              <div class="game-unit">
+                <div class="game-title-row">
+                  <div class="game-title">Backrooms: Escape Together</div>
+                  <div class="game-genre">協力型サバイバルホラー / 一人称</div>
+                </div>
+                <div class="game-photo">
+                  <img src="img/minecraft.png" alt="Minecraft" onerror="this.src='https://via.placeholder.com/600x340/222/fff?text=Minecraft'">
+                </div>
+                <table class="game-table">
+                  <tr>
+                    <th>プレイスタイル</th>
+                    <td>マルチプレイ</td>
+                  </tr>
+                  <tr>
+                    <th>コメント</th>
+                    <td>夢の中のような世界で歩き回るゲーム。雰囲気で怖がらせてくる。</td>
+                  </tr>
+                </table>
+              </div>
+
+            </div>
+
+            <div class="home-link">
+              <a href="index.html">トップページへ戻る</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <div class="page-top" id="js-page-top">
+        <span class="material-icons-outlined">expand_less</span>
+      </div>
+    </main>
+
+    <!-- footer -->
+    <footer class="footer">
+      <div class="copyright">&copy;2026 Azurite All Rights Reserved.<br>
+        お問い合わせは<a href="https://x.com/Azuriteeeee" target="_blank" rel="noopener">X(旧Twitter)</a>のDMまで
+      </div>
+    </footer>
+    <!-- /footer -->
+
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script type='text/javascript' src="js/script.js"></script>
+</body>
+</html>
